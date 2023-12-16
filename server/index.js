@@ -10,13 +10,17 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-io.on('connection', (socket) => {
-    console.log("a user connected")
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  //receiver
+  socket.on("userJoined", ({ userName, room }, callback) => {
+    console.log("fromServer:", { userName, room });
+  });
 
-    socket.on('disconnect', () => {
-        console.log("user has left")
-    })
-})
+  socket.on("disconnect", () => {
+    console.log("user has left");
+  });
+});
 
 app.use("/", router);
 
